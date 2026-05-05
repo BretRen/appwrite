@@ -287,23 +287,21 @@ function createDatabase(Container $resources, string $resourceKey, string $dbNam
     Span::current()?->finish();
 }
 
-$http->on(Constant::EVENT_START, function ($http) use ($payloadSize, $totalWorkers, $swoole) {
-    $resources = $swoole->resources();
-
+$http->on(Constant::EVENT_START, function ($http) use ($payloadSize, $totalWorkers, $container) {
     /** @var \Utopia\Pools\Group $pools */
-    $pools = $resources->get('pools');
+    $pools = $container->get('pools');
 
-    go(function () use ($resources, $pools) {
+    go(function () use ($container, $pools) {
 
         /** @var array $collections */
         $collections = Config::getParam('collections', []);
 
         // create logs database first, `getLogsDB` is a callable.
-        createDatabase($resources, 'getLogsDB', 'logs', $collections['logs'], $pools);
+        createDatabase($container, 'getLogsDB', 'logs', $collections['logs'], $pools);
 
         // create appwrite database, `dbForPlatform` is a direct access call.
-        createDatabase($resources, 'dbForPlatform', 'appwrite', $collections['console'], $pools, function (Database $dbForPlatform) use ($collections, $resources) {
-            $authorization = $resources->get('authorization');
+        createDatabase($container, 'dbForPlatform', 'appwrite', $collections['console'], $pools, function (Database $dbForPlatform) use ($collections, $container) {
+            $authorization = $container->get('authorization');
 
             if ($dbForPlatform->getCollection(AuditAdapterSQL::COLLECTION)->isEmpty()) {
                 $adapter = new AdapterDatabase($dbForPlatform);
@@ -415,7 +413,7 @@ $http->on(Constant::EVENT_START, function ($http) use ($payloadSize, $totalWorke
         $documentsSharedTables = \explode(',', System::getEnv('_APP_DATABASE_DOCUMENTSDB_SHARED_TABLES', ''));
         $vectorSharedTables = \explode(',', System::getEnv('_APP_DATABASE_VECTORSDB_SHARED_TABLES', ''));
 
-        $cache = $resources->get('cache');
+        $cache = $container->get('cache');
 
         // All shared tables pools that need project metadata collections
         $allSharedTables = \array_values(\array_unique(\array_filter([
@@ -638,18 +636,16 @@ $swoole->onRequest(function ($utopiaRequest, $utopiaResponse) use ($files, $swoo
 });
 
 // Fetch domains every `DOMAIN_SYNC_TIMER` seconds and update in the memory
-$http->on(Constant::EVENT_TASK, function () use ($swoole) {
+$http->on(Constant::EVENT_TASK, function () use ($container) {
     $lastSyncUpdate = null;
 
-    $resources = $swoole->resources();
-
     /** @var Utopia\Database\Database $dbForPlatform */
-    $dbForPlatform = $resources->get('dbForPlatform');
+    $dbForPlatform = $container->get('dbForPlatform');
 
     /** @var \Swoole\Table $riskyDomains */
-    $riskyDomains = $resources->get('riskyDomains');
+    $riskyDomains = $container->get('riskyDomains');
 
-    Timer::tick(DOMAIN_SYNC_TIMER * 1000, function () use ($dbForPlatform, $riskyDomains, &$lastSyncUpdate, $resources) {
+    Timer::tick(DOMAIN_SYNC_TIMER * 1000, function () use ($dbForPlatform, $riskyDomains, &$lastSyncUpdate, $container) {
         try {
             $time = DateTime::now();
             $limit = 1000;
@@ -666,7 +662,7 @@ $http->on(Constant::EVENT_TASK, function () use ($swoole) {
                 }
                 $results = [];
                 try {
-                    $authorization = $resources->get('authorization');
+                    $authorization = $container->get('authorization');
                     $results = $authorization->skip(fn () =>  $dbForPlatform->find('rules', $queries));
                 } catch (Throwable $th) {
                     Console::error('rules ' . $th->getMessage());
