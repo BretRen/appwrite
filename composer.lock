@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3c21ba1557c495462c52bcb201c24422",
+    "content-hash": "b566028f6efae40a0633df2ea3c47fe0",
     "packages": [
         {
             "name": "adhocore/jwt",
@@ -4272,16 +4272,16 @@
         },
         {
             "name": "utopia-php/http",
-            "version": "dev-feat-resources-and-context",
+            "version": "2.0.0-rc1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/utopia-php/http.git",
-                "reference": "cb1912db53a918f5bd8b8a97e89af1e7d21337bb"
+                "reference": "3e3b431d443844c6bf810120dee735f45880856f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/utopia-php/http/zipball/cb1912db53a918f5bd8b8a97e89af1e7d21337bb",
-                "reference": "cb1912db53a918f5bd8b8a97e89af1e7d21337bb",
+                "url": "https://api.github.com/repos/utopia-php/http/zipball/3e3b431d443844c6bf810120dee735f45880856f",
+                "reference": "3e3b431d443844c6bf810120dee735f45880856f",
                 "shasum": ""
             },
             "require": {
@@ -4322,9 +4322,9 @@
             ],
             "support": {
                 "issues": "https://github.com/utopia-php/http/issues",
-                "source": "https://github.com/utopia-php/http/tree/feat-resources-and-context"
+                "source": "https://github.com/utopia-php/http/tree/2.0.0-rc1"
             },
-            "time": "2026-05-05T12:56:39+00:00"
+            "time": "2026-05-05T15:00:03+00:00"
         },
         {
             "name": "utopia-php/image",
@@ -4647,16 +4647,16 @@
         },
         {
             "name": "utopia-php/platform",
-            "version": "0.13.2",
+            "version": "1.0.0-rc1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/utopia-php/platform.git",
-                "reference": "a20cb8b20a1e4c9886309c2d033a0292ba0937b9"
+                "reference": "36c0a8b2f3d96ca056d724701a302a127111e933"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/utopia-php/platform/zipball/a20cb8b20a1e4c9886309c2d033a0292ba0937b9",
-                "reference": "a20cb8b20a1e4c9886309c2d033a0292ba0937b9",
+                "url": "https://api.github.com/repos/utopia-php/platform/zipball/36c0a8b2f3d96ca056d724701a302a127111e933",
+                "reference": "36c0a8b2f3d96ca056d724701a302a127111e933",
                 "shasum": ""
             },
             "require": {
@@ -4664,7 +4664,7 @@
                 "ext-redis": "*",
                 "php": ">=8.3",
                 "utopia-php/cli": "0.23.3",
-                "utopia-php/http": "0.34.25",
+                "utopia-php/http": "^2.0@RC",
                 "utopia-php/queue": "0.18.2",
                 "utopia-php/servers": "0.4.0"
             },
@@ -4692,9 +4692,9 @@
             ],
             "support": {
                 "issues": "https://github.com/utopia-php/platform/issues",
-                "source": "https://github.com/utopia-php/platform/tree/0.13.2"
+                "source": "https://github.com/utopia-php/platform/tree/1.0.0-rc1"
             },
-            "time": "2026-05-05T06:00:26+00:00"
+            "time": "2026-05-05T15:09:27+00:00"
         },
         {
             "name": "utopia-php/pools",
@@ -8443,17 +8443,11 @@
             "time": "2024-11-07T12:36:22+00:00"
         }
     ],
-    "aliases": [
-        {
-            "package": "utopia-php/http",
-            "version": "dev-feat-resources-and-context",
-            "alias": "0.34.25",
-            "alias_normalized": "0.34.25.0"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "utopia-php/http": 20
+        "utopia-php/http": 5,
+        "utopia-php/platform": 5
     },
     "prefer-stable": true,
     "prefer-lowest": false,
